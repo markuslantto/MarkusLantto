@@ -20,4 +20,7 @@ By call or text at: +46727466778
 
 By mail at: markus.a.lantto@gmail.com
 
+By connecting through LinkedIn: www.linkedin.com/in/markus-l-376061210
+
+
 
