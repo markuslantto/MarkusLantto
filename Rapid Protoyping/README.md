@@ -10,7 +10,16 @@ This is the description for our interactive experience:
 
 ## Breakdown of the project sections
 
-### CAD / 3D Printing
+### Physical design
+
+For the physical design of our project, we chose two build two large cuboids, where one functioned as a base below the actual factory for storing all electronics and the second cuboid being the actual factory. The factory cuboid is filled with decorations, such as the shark workers, a balcony for the evil shrimp boss, and a conveyer belt where the shrimp chips are produced. Below is a picture of the interior design:
+
+| Inside the factory |
+| :---: |
+| <img width="300" src="https://github.com/user-attachments/assets/dcc98b7b-6d04-452b-89d6-b0cc3d5f5a2e" /> |
+
+
+A lot of the physical design was made in CAD (Creo) and thereafter 3D-printed, including:
 
 - **Conveyer Belt**: A conveyer belt consisting of 50+ small links manually linked together.
   
@@ -19,7 +28,7 @@ This is the description for our interactive experience:
 | <img src="https://github.com/user-attachments/assets/5576fd5c-7b1c-40ad-8484-19fa9ae6bd10" width="300"> | <img src="https://github.com/user-attachments/assets/2a97e071-684f-4276-bd87-427a49610178" width="300"> |
 
 
-- **Cogs, motor mount, speaker amplifier**: Different components to hook the conveyer belt onto our motor, and a conical amplifier for our MP3-player.
+- **Cogs, motor mount, speaker amplifier**: Different components to hook the conveyer belt onto our motor, and a conical amplifier for a MP3-player.
 
 | Some prints |
 | :---: |
