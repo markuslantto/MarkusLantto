@@ -12,10 +12,8 @@ A robotic-focused project course at LTH. It involved designing and building a mo
 | :---: |
 | <img width="300" src="https://github.com/user-attachments/assets/4c312297-a93a-47ec-9816-3cfff08f758d" /> |
 
-https://github.com/user-attachments/assets/4c312297-a93a-47ec-9816-3cfff08f758d
-<img width="1536" height="2048" alt="claw" src="" />
 
-- **Robot housing**: Laser-cutted MDF housing. <img width="1536" height="2048" alt="rescuerobot" src="" />
+- **Robot housing**: Laser-cutted MDF housing.
 
 
 | Robot housing |
