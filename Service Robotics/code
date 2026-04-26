@@ -1,0 +1,186 @@
+void loop () {
+if ( returningHome ) {
+processReturnJourney () ;
+return ;
+}
+
+uint16_t position = qtr . readLineBlack ( sensorValues ) ;
+bool farLeft = sensorValues [0] > Threshold ;
+bool farRight = sensorValues [5] > Threshold ;
+
+bool allWhite = true ;
+for (int i =0; i <6; i ++) { if( sensorValues [ i ] > 400) allWhite =
+false ; }
+
+// PRIORITY 1: RE - ACQUIRING LINE AFTER GHOST NODE
+if (! allWhite && wasInGap ) {
+wasInGap = false ;
+
+int targetNode = pathNodeIDs [ pathIndex ];
+Serial . print ("GAP ␣ ENDED ␣at␣ Node :␣") ; Serial . println (
+targetNode ) ;
+
+// SPECIAL CASE : Node 13 ( Keep your existing logic for N13
+if needed )
+if ( targetNode == 13) {
+pathIndex ++;
+}
+
+// --- FIX : ALWAYS STABILIZE ---
+// We apply this to ALL nodes after a gap ( including Node
+) , not just specific ones .
+// This forces the robot to straighten out before it looks
+for turns .
+
+unsigned long stabTime = millis () ;
+while ( millis () - stabTime < 350) { // 350 ms of pure line
+following
+uint16_t pos = qtr . readLineBlack ( sensorValues ) ;
+int err = pos - 2500;
+int adj = ( Kp * err ) + ( Kd * ( err - lastError ) ) ;
+lastError = err ;
+
+// Use slightly gentler speeds for stabilization if
+necessary
+int l = M2_BaseSpeed + adj ;
+int r = M1_BaseSpeed - adj ;
+l = constrain (l , -100 , 255) ; r = constrain (r , -100 , 255)
+;
+runMotors (l , r ) ;
+}
+
+// CRITICAL : Return here so we don ’t accidentally trigger ’
+handleIntersection ’
+// in the same loop cycle .
+return ;
+}
+
+// PRIORITY 2: INTERSECTIONS
+if ( farLeft || farRight ) {
+wasInGap = false ;
+
+handleIntersection () ;
+return ;
+}
+
+// PRIORITY 3: GAP / DEAD END HANDLING
+if ( allWhite ) {
+
+// --- TARGET REACHED CHECK ---
+if ( pathIndex >= pathSequence . length () ) {
+Serial . println (" TARGET ␣ REACHED .␣ Initiating ␣ Return .") ;
+runMotors (0 ,0) ;
+delay (500) ;
+
+for (int k =0; k <5; k ++) {
+digitalWrite ( LED_BUILTIN , HIGH ) ; delay (100) ;
+digitalWrite ( LED_BUILTIN , LOW ) ; delay (100) ;
+}
+
+turnAround180 () ;
+returningHome = true ;
+lastError = 0;
+return ;
+}
+
+// [FIX ] DEAD END HANDLING
+// If the sensors see white ( end of line ) AND the current
+instruction is ’U’
+// We treat this as arriving at the node and executing the
+U- turn .
+char nextMove = pathSequence . charAt ( pathIndex ) ;
+if ( nextMove == ’U’) {
+Serial . println (" Dead ␣ End␣ Detected .␣ Executing ␣ Planned ␣UTurn .") ;
+turnAround () ; // Perform the 180
+pathStack [ stackPointer ++] = ’U’; // Add to history
+pathIndex ++; // <--- CRITICAL : Increment index so we
+don ’t repeat this move at the next node !
+wasInGap = false ;
+lastError = 0;
+return ;
+}
+
+int prevNode = pathNodeIDs [ pathIndex - 1];
+int nextNode = pathNodeIDs [ pathIndex ];
+int nextNextNode = -1;
+if ( pathIndex + 1 < MAX_NODES ) nextNextNode = pathNodeIDs [
+pathIndex + 1];
+Aswell as our BFS-algorithm
+String solveMaze ( int start , int end , int & heading ) {
+int queue [ MAX_NODES ] , parent [ MAX_NODES ];
+bool visited [ MAX_NODES ];
+int head = 0 , tail = 0;
+
+for ( int i =0; i < MAX_NODES ; i ++) { visited [ i ] = false ; parent [ i
+] = -1; }
+
+queue [ tail ++] = start ; visited [ start ] = true ;
+
+bool found = false ;
+while ( head < tail ) {
+int curr = queue [ head ++];
+if ( curr == end ) { found = true ; break ; }
+
+
+for ( int dir =0; dir <4; dir ++) {
+int neighbor = mazeMap [ curr ][ dir ];
+if ( neighbor != -1 && ! visited [ neighbor ]) {
+visited [ neighbor ] = true ; parent [ neighbor ] = curr ;
+queue [ tail ++] = neighbor ;
+}
+}
+}
+
+if (! found ) return "";
+
+int path [50]; int count = 0; int curr = end ;
+while ( curr != -1) { path [ count ++] = curr ; curr = parent [ curr
+]; }
+
+// --- CHANGED : APPEND NODES TO GLOBAL ARRAY WITHOUT
+OVERWRITING ---
+// We skip the first node ( k =1 instead of k =0) for chained
+segments
+// so we don ’ t record the connecting node twice ( e . g . 0..29 ,
+29..26)
+// UNLESS it is the very first segment ( nodeFillIndex == 0) .
+
+int startK = ( nodeFillIndex == 0) ? 0 : 1;
+
+for ( int k = startK ; k < count ; k ++) {
+// Logic : path array is backwards ( End - > Start ) , so we
+read it in reverse
+pathNodeIDs [ nodeFillIndex ++] = path [ count - 1 - k ];
+}
+
+String strPath = "";
+int currentHeading = heading ; // Use the heading passed from
+setup
+
+// Generate Path String
+for ( int i = count - 2; i >= 0; i - -) {
+int from = path [ i +1]; int to = path [ i ];
+int travelDir = -1;
+
+if ( mazeMap [ from ][ NORTH ] == to ) travelDir = NORTH ;
+else if ( mazeMap [ from ][ EAST ] == to ) travelDir = EAST ;
+else if ( mazeMap [ from ][ SOUTH ] == to ) travelDir = SOUTH ;
+else if ( mazeMap [ from ][ WEST ] == to ) travelDir = WEST ;
+
+int diff = travelDir - currentHeading ;
+if ( diff < 0) diff += 4;
+
+if ( diff == 0) strPath += " S ";
+else if ( diff == 1) strPath += " R ";
+else if ( diff == 3) strPath += " L ";
+else if ( diff == 2) strPath += " U ";
+
+currentHeading = travelDir ; // Update local tracking
+}
+
+// --- VITAL : Update the global heading for the next function
+call ---
+heading = currentHeading ;
+
+return strPath ;
+}
