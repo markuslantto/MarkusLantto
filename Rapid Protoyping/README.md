@@ -1,6 +1,6 @@
-# Rapid Prototyping a Shark Factory
+# Rapid Prototyping: A Shark Factory
 
-A rapid prototyping project course at LTH, focused on intagrating and syncing different components to create a conceptiual interactive experience, where you get to be in charge of a factory consisting of sharks producing shrimp chips. 
+A rapid prototyping project course at LTH, focused on intagrating and syncing different components to create a conceptual interactive experience, where you get to be in charge of a factory consisting of sharks producing shrimp chips. 
 The goal was to design and build a fully functional mechatronic system for this experience, within a constrained timeframe. 
 
 This is the description for our interactive experience: 
