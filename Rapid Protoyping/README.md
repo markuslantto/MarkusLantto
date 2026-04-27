@@ -60,6 +60,6 @@ A debounce sequence in the code also ensures that a physical button press is reg
 
 ### Results 
 
-The final presentation of our experience successfully preformed without any major deviations from the demo's we earlier ran. Below is a video of our first successful attempt. 
+The final presentation of our experience successfully preformed without any major deviations from the demo's we earlier ran, giving us the highest grade in the course. Below is a video of our first successful attempt. 
 
 https://drive.google.com/file/d/1YMHVF0lZewXSyK2voq_vUxEnQRn3MMQe/view?usp=sharing
