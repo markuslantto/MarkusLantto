@@ -1,0 +1,2 @@
+The aim of the project was to explore different options to offload real-time control robotic applications to the cloud. My objective in this project was to, together with a team of 3 other, design and implement a Robot Operating System (ROS)-based control algorithm for the ABB YuMi robot. 
+The task was to build a program where YuMi autonomously probes, grabs and lifts a tray from a table, and transport it safely to a given location. This was to be done without knocking over anything potentially placed at the tray, such as a wine glass. 
