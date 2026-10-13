@@ -5,7 +5,7 @@ My name is Markus and I'm a mechatronics student based in Sweden, currently in m
 
 My GitHub serves as a portfolio for my prior projects that best describe my know-how. I have several pinned projects but my favorite is the [YuMi Learning to Grasp](https://github.com/markuslantto/YuMi-Autonomous-Grasping) project with ABB, from my Real-Time Systems course.
 
-In one of my current courses, I am working with Careium to develop a mechanical design concept for their wearable fall detector. The device uses an IMU sensor to detect falls and automatically alerts an alarm center. However, to manage false positives, users are given a brief time window to abort the alarm before it is sent.   
+In one of my current courses, I am working with Careium to develop a [mechanical design concept for their wearable fall detector](https://github.com/markuslantto/Careium-Fall-Detector-Concept). The device uses an IMU sensor to detect falls and automatically alerts an alarm center. However, to manage false positives, users are given a brief time window to abort the alarm before it is sent.   
 
 My task is to design an intuitive mechanical solution to cancel these false alarms. The main challenge is creating a mechanism that is easy to operate for elderly users with limited dexterity, while ensuring it is impossible to cancel a real alarm by mistake during a stressful situation.   
 
